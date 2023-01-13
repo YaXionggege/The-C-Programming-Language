@@ -1,0 +1,21 @@
+Formula: centigrade=(5.0/9)*(f_Degree-32);
+
+Source Code Cemonstration:
+
+#include<stdio.h>                                 //头文件
+{
+float f_Degree,centigrade;                        //定义浮点型变量
+f_Degree=98.0;                                    //初始化华氏度变量
+centigrade=(5.0/9)*(f_Degree-32);                 //注意此处应该是5.0
+printf("华氏度98的摄氏度为：%f\n",centigrade);      //输出结果
+return 0;                                         //函数返回值为0
+}
+
+
+
+Compilation results：
+华氏度98的摄氏度为：36.666668
+
+--------------------------------
+Process exited after 1.796 seconds with return value 0
+请按任意键继续. . .
