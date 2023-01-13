@@ -1,0 +1,7 @@
+#include<stdio.h> //头文件 
+int main() //主函数 
+{
+  char character_Big;//定义字符变量 
+  character_Big='A';//初始化 
+  printf("%d",character_Big);//注意这里的格式控制符是%d 
+}
