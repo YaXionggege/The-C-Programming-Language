@@ -1,0 +1,12 @@
+//for循环 
+#include<stdio.h> //头文件 
+int main() //主函数 
+{
+  int i,sum=0;//定义变量 
+  for(i=1;i<101;i++)//循环条件和增量 
+  {
+    sum=sum+i; //和 
+  } 
+  printf("%d",sum);//输出结果
+  return 0;//函数返回值为0 
+}
