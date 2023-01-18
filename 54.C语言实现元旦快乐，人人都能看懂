@@ -1,0 +1,6 @@
+#include <stdio.h>//头文件 
+int main() //主函数 
+{
+    printf("元旦快乐！\n");//输出语句 
+    return 0;//主函数返回值为0 
+}
