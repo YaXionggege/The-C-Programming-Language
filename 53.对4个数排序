@@ -1,0 +1,40 @@
+#include<stdio.h>//头文件 
+int main()//主函数 
+{
+  int temp,num1,num2,num3,num4;//定义整型变量 
+  printf("请输入四个数：");//提示语句 
+  scanf("%d %d %d %d",&num1,&num2,&num3,&num4);//注意这里键盘录入的时候也要有空格 
+  if(num1>num2) //读者可以考虑怎么优化，三目运算符或者冒泡排序 
+  {
+    temp=num1;
+    num1=num2; 
+    num2=temp;
+  }
+  if(num1>num3)
+  {
+    temp=num1;
+    num1=num3;
+    num3=temp;
+  }
+  if(num1>num4)
+  {
+    temp=num1;
+    num1=num4;
+    num4=temp;
+  }
+  if(num2>num3)
+  {
+    temp=num2;
+    num2=num3;
+    num3=temp;
+  } 
+  if(num3>num4)
+  {
+    temp=num3;
+    num3=num4;
+    num4=temp;
+  }
+  printf("排序后的结果：\n");//提示语句 
+  printf("%d %d %d %d",num1,num2,num3,num4);
+  return 0;//主函数返回值为0 
+}
