@@ -1,0 +1,16 @@
+#include<stdio.h>//头文件 
+int main()//主函数 
+{
+  double height,bounce_Height;//定义双精度浮点型变量 
+  height=100;//赋初值 
+  bounce_Height=height/2;//赋初值 
+  int n;//定义整型变量 
+  for(n=2;n<=10;n++)
+  {
+    height=height+2*bounce_Height;//第n次落地时共经过的米数 
+    bounce_Height=bounce_Height/2;//第n次反跳高度 
+  } 
+  printf("第10次落地时共经过%f米\n",height);
+  printf("第10次反弹%f米\n",bounce_Height);
+  return 0; 
+}
