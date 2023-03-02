@@ -1,0 +1,28 @@
+#include <stdio.h>//头文件 
+int main()//主函数 
+{
+  int i,j,k;//定义整型变量 
+  float num1,num2;//定义浮点型变量 
+  i = 22;//赋初值 
+  j = 8;//赋初值
+  num1 = 1000.25;//赋初值
+  num2 = 830.78;//赋初值
+  printf("*************************************\n");
+  printf("** 算术运算符**\n");
+  printf("*************************************\n");
+  printf("i = %d,j = %d\n",i,j);
+  printf("i+j=%d\n",i+j);
+  printf("i-j=%d\n",i-j);
+  printf("i*j=%d\n",i*j);
+  printf("i/j=%d\n",i/j);
+  printf("i%%j=%d\n",i%j);//此处用到了转义符 
+  
+  k = 4*i - j/4 + i*(i-j)/(5*j-3*10);
+  printf("4*i - j/4 + i*(i-j)/(5*j-3*10)=%d\n",k);
+  
+  printf("f+h=%.2f\n",num1+num2);
+  printf("f-h=%.2f\n",num1-num2);
+  printf("f/j=%.2f\n",num1/j);
+  
+  return 0;//函数返回值为0 
+}
