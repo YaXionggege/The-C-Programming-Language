@@ -1,0 +1,11 @@
+#include<stdio.h>//头文件 
+int main()//主函数 
+{
+  int a,b;//定义整型变量 
+  a=077;//赋初值 
+  b=a&3; 
+  printf("值是：%d\n",b);
+  b&=7;
+  printf("值是：%d\n",b);
+  return 0;//主函数返回值为0 
+}
