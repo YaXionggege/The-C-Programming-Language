@@ -1,0 +1,11 @@
+#include<stdio.h>//头文件 
+int main()//主函数 
+{
+  int num1,num2;//定义整型变量 
+  num1=077;
+  num2=num1^3;
+  printf("num2值是%d\n",num2);
+  num2^=7;
+  printf("num2值是%d\n",num2);
+  return 0;//函数返回值为0 
+}
