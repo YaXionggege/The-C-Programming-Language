@@ -1,0 +1,11 @@
+#include<stdio.h>//头文件 
+int main()//主函数 
+{
+  int num1,num2;//定义整型变量 
+  num1=234;
+  num2=~num1;
+  printf("num2是：%d\n",num2);
+  num1=~num1;
+  printf("num1是：%x\n",num1);//注意此处的格式控制符是%x 
+  return 0;//函数返回值为0 
+}
