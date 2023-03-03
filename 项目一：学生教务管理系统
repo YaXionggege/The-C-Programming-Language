@@ -1,0 +1,250 @@
+      #include<stdio.h>
+	  #include<string.h>
+	  #include<stdlib.h>
+      #define MAX 1000
+      /*定义学生成绩信息结构*/
+
+      struct stu{
+       char id[8];char name [8];
+     double Chinese,Math,English,PE,com,average,total;
+      };
+
+      /*学生结构数组，用于存储学生成绩信息*/
+	  struct stu students[MAX]; /*当前学生人数*/
+      int current ;
+	  void save(){
+
+      FILE *fp;
+	  int i;
+      printf("请输入学生人数: ");scanf("%d",&current);
+
+      if((fp=fopen("stu.dat", "wb"))==NULL){
+      	printf("cannot open file\n");
+	  }
+      for (i = 0; i < current; i++){
+	  
+
+      printf("\n请输入学生学号，最多为7位数: ");scanf("%s",students[i].id);
+	  printf("请输入学生姓名: ");scanf("%s",students[i].name);
+	  printf("请输入语文成绩: ");scanf("%lf",&students[i].Chinese);
+	  printf("请输入数学成绩: ");scanf("%lf",&students[i].Math);
+	  printf("请输入英语成绩: ");scanf("%lf",&students[i].English);
+	  printf("请输入体育成绩: ");scanf("%lf", &students[i].PE) ; 
+	  printf("请输入计算机成绩:");scanf("%lf", &students[i].com) ; 
+      students[i].total = students[i].Chinese + students[i].Math + students[i].English + students[i].PE + students[i].com;
+      students[i].average = students[i].total/5;}
+      
+     for(i = 0; i < current; i++)
+     fwrite(&students[i], sizeof(struct stu),1,fp);
+	 fclose(fp);}
+
+/*排名次，即对学生结构数组排序*/
+
+void sort(struct stu array[],int n){
+
+    int i,j;
+    struct stu temp;
+for(i=0;i<n;i++){
+for(j=i+1;j<n;j++){
+if (array[i]. average - array[j]. average < 0){
+temp = array[i];array[i] = array[j];array[j] = temp;
+}}}}
+/*统计平均成绩，并输出各分数段的人数*/
+
+
+void print_score(struct stu array[],int n){
+
+int i;
+double ave = 0;
+int sum1=0,sum2=0,sum3=0,sum4=0,sum5=0;
+
+      for(i=0;i<n;i++){
+        ave += array[i].average;
+        switch ((int)(array[i].average / 10)){
+
+      case 10:
+
+      case 9: 	  sum1++; break;
+	  
+	  case 8: 	  sum2++; break;
+	  
+	  case 7: 	  sum3++ ; break;
+	  
+	  case 6: 	  sum4++; break;
+	  
+	  default: sum5++;}}
+	  
+      printf("全班的平均分为: %.lf\n",ave/n);
+      printf("平均分在90分以上的人数为: %d\n",sum1) ;
+	  printf("平均分在80~89的人数为: %d\n",sum2);
+	  printf("平均分在70~79的人数为: %d\n",sum3);
+	  printf("平均分在60~69的人数为: %d\n",sum4);
+	  printf("平均分在60分以下的人数为: %d\n",sum5) ;}
+
+
+void print_show(struct stu array[],int n){
+    int i;
+      printf("科目\t学号\t名字\n"); for (i =0;i< n; i++){
+      	printf("平均排名\t%s\t%s\t%lf\n", array[i].id, array[i].name, array[i].average );}} 
+      
+      
+
+/*输出不及格科目及学生名单*/
+
+void print_unreach(struct stu array[],int n){
+      int i;
+      printf("科目\t学号\t名字\n");
+	  for (i =0;i< n; i++){
+	  	
+      if (array[i].Chinese < 60){
+      printf("语文\t%s\t%s\t%lf\n",array[i].id, array[i].name,array[i].Chinese);}
+      
+      if (array[i]. Math < 60){
+      printf("数学\t%s\t%s\t%lf\n", array[i].id, array[i].name, array[i].Math );}
+
+      if (array[i]. English < 60){
+      	printf("英语\t%s\t%s\t%lf\n", array[i].id, array[i].name, array[i].English );}
+	  
+      if(array[i].PE < 60){
+      	printf("体育\t%s\t%s\t%lf\n", array[i].id, array[i].name, array[i].PE );}
+      	
+      if (array[i]. com <60){
+      	printf("计算机\t%s\t%s\t%lf\n", array[i].id, array[i].name, array[i].com );}}}
+
+/*打印优秀生名单*/
+
+void print_good (struct stu array[], int n){ 
+        
+		int i;
+        char mark = 0;
+           if (n > 5){ 
+             n=5;} 
+               printf("学号\t姓名\t语文\t数学\t英珸\t体育\t计算机\t平均分\t名次\n");
+			   for(i=0;i<n;i++){ 
+                if ((array[i]. Chinese > 60) && (array[i]. Math > 60) && (array[i]. English >60) && (array[i].PE >60) && (array[i]. com >60)){ 
+                    if (array[i].average > 80) mark = 1;
+					else if (array[i]. Chinese >90 || array[i].com >90 || array[i].English>90 || array[i].Math >90 || array[i]. PE>90) mark= 1;}
+                       else{
+                            if (array[i].Chinese == 100) mark = 1;
+							if (array[i].Math == 100) mark = 1;
+							if (array[i].English == 100) mark = 1;
+							if (array[i].PE == 100) mark=1;
+							if (array[i].com == 100) mark=1;}
+
+                        if (mark == 1){
+                              printf("%s\t%s\t",array[i]. id, array[i]. name) ;
+                              printf("%.f\t %.f\t %.f\t %.f\t %.f\t %.lf\t", array[i].Chinese, array[i].Math, array[i].English, array[i].PE, array[i].com, array[i].average);
+                              printf("%d\n", i+1);}}}
+/*按学生姓名查询成绩*/
+
+
+void search_name (struct stu array[], int n, char* name){
+      int i;
+      char mark = 1;
+      for(i=0;i<n;i++){ 
+        if (strcmp(name,array[i].name) == 0){ 
+
+      printf("姓名：%s\n", name);      
+      printf("学号：%s\n", array[i]. id);
+	  printf("语文：%.f\n", array[i]. Chinese) ;
+	  printf("数学：%.f\n", array[i]. Math) ;
+	  printf("英语：%.f\n", array[i]. English) ;
+	  printf("体育：%.f\n", array[i].PE );
+	  printf("计算机：%.f\n", array[i].com );
+      printf("平均分：%.lf\n", array[i]. average);
+	  mark = 0;}} 
+
+      if (mark == 1) puts("不存在该学生记录");} 
+
+      /*按学生学号查询*/
+
+      void search_id(struct stu array[], int n, char* id){ 
+      int i;
+      char mark = 1;
+      for (i = 0;i< n; i++){ 
+      if (strcmp(id, array[i].id) == 0){ 
+       printf("姓名：%s\n", array[i].name);      
+      printf("学号：%s\n", array[i]. id);
+	  printf("语文：%.f\n", array[i]. Chinese) ;
+	  printf("数学：%.f\n", array[i]. Math) ;
+	  printf("英语：%.f\n", array[i]. English) ;
+	  printf("体育：%.f\n", array[i].PE );
+	  printf("计算机：%.f\n", array[i].com );
+      printf("平均分：%.lf\n", array[i]. average);
+	  mark = 0;
+      break;}} 
+
+      if (mark == 1) puts("不存在该学生记录");} 
+
+       void print_menu(){
+
+      printf("1. 输入学生信息\n");
+	  puts("2. 统计全班学生成绩");
+	  puts("3. 按学号查询学生成绩");
+	  puts("4. 按姓名查询学生成绩");
+	  puts("5. 输出不及格情况");
+	  puts("6. 输出优等生情况");
+	  puts("7. 输出平均分排名");
+	  puts("0. 退出程序");
+      printf("\n\n 请输入操作选择: \n");}
+
+int main(int argc, char **argv){ 
+
+      char ch = 0;
+      char id[8], name[8];
+      while (ch != '0'){
+      print_menu() ;
+	  ch = getchar();
+	  
+	  switch (ch){
+
+      case'1':{
+		system("cls");
+	    save() ;
+        sort(students, current);
+		break;
+	  }    
+
+      case '2':{
+		 system("cls");
+          print_score(students, current);
+          break;
+	  }
+
+      case '3':{
+      	system("cls");
+        printf("请输入学号: ");
+		scanf("%s", id);
+        search_id(students, current, id) ;
+		break;
+	  }
+
+      case '4':{ 
+      system("cls");
+      printf("请输入姓名: ");
+	  scanf("%s" , name) ;
+      search_name (students, current, name) ;
+	  break;} 
+
+      case '5':{ 
+      system("cls");
+      print_unreach (students, current) ;
+      break;} 
+
+      case '6':{ 
+      system("cls");
+      print_good(students, current);
+      break;} 
+      
+      case '7':{ 
+      system("cls");
+      print_show(students, current);
+      break;}
+
+      case '0': exit(0);} 
+
+      printf("\n\n任意键返回主菜单***");
+	  getchar();
+	  getchar();}
+
+return 0;}
