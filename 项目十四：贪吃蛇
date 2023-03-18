@@ -1,0 +1,184 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <conio.h>
+#include <Windows.h>
+#define HIGH 20 // 游戏画⾯尺⼨
+#define WIDTH 30
+// 全部变量
+int moveDirection; // ⼩蛇移动的⽅向，上、下、左、右分别⽤1、2、3、4表⽰
+int food_x,food_y; // ⾷物的位置
+int canvas[HIGH][WIDTH] = { 0 }; // ⼆位数组存储游戏画布中对应的元素
+// 0为空格，-1为边框#， 1为蛇头@， ⼤于1的正数为蛇⾝*
+void gotoxy(int x, int y) /* 将光标移动到(x,y)位置 */
+{
+HANDLE handle = GetStdHandle(STD_OUTPUT_HANDLE);
+COORD pos;
+pos.X = x;
+pos.Y = y;
+SetConsoleCursorPosition(handle, pos);
+}// 替代system("cls")清屏函数
+/*
+·移动⼩蛇
+·第⼀步扫描数组canvas的所有元素，找到正数元素都加1
+·找到最⼤元素（即蛇尾巴），把其变为0
+·找到等于2的元素（即蛇头），根据输出的上下左右⽅向把对应的另⼀个像素值设为1（新蛇头）
+*/
+void moveSnakeByDirection()
+{
+int i, j;
+for ( i = 1; i < HIGH - 1; i++ )
+for ( j = 1; j < WIDTH - 1; j++ )
+if ( canvas[i][j] > 0 )
+canvas[i][j]++;
+int oldTail_i, oldTail_j, oldHead_i, oldHead_j;
+int max = 0;
+for ( i = 1; i < HIGH - 1; i++ )
+for ( j = 1; j < WIDTH - 1; j++ )
+if ( canvas[i][j] > 0 )
+{
+if ( max < canvas[i][j] )
+{
+max = canvas[i][j];
+oldTail_i = i;
+oldTail_j = j;
+}
+if ( canvas[i][j] == 2 )
+{
+oldHead_i = i;
+oldHead_j = j;
+}
+}
+int newHead_i, newHead_j;
+if ( moveDirection == 1 ) // 向上移动
+{
+newHead_i = oldHead_i - 1;
+newHead_j = oldHead_j;
+}
+if ( moveDirection == 2 ) // 向下移动
+{
+newHead_i = oldHead_i + 1;
+newHead_j = oldHead_j;
+}
+if ( moveDirection == 3 ) // 向左移动
+{
+newHead_i = oldHead_i;
+newHead_j = oldHead_j - 1;
+}
+if ( moveDirection == 4 ) // 向右移动
+{
+newHead_i = oldHead_i;
+newHead_j = oldHead_j + 1;
+}
+// 如果新蛇头吃到⾷物
+if ( canvas[newHead_i][newHead_j] == -2 )
+{
+canvas[food_x][food_y] = 0;
+// 产⽣⼀个新的事物
+food_x = rand() % ( HIGH - 5) + 2;
+food_y = rand() % ( WIDTH - 5) + 2;
+canvas[food_x][food_y] = -2;
+// 原来的旧蛇尾留着，长度⾃动加1
+}
+else // 否则，原来的旧蛇尾减掉，保持当都不变
+canvas[oldTail_i][oldTail_j] = 0;
+// ⼩蛇是否和⾃⾝碰撞或者和边框撞，游戏失败
+if ( canvas[newHead_i][newHead_j] > 0 || canvas[newHead_i][newHead_j] == -1 )
+{
+printf("游戏失败！\n");
+exit(EXIT_FAILURE);
+}else
+canvas[newHead_i][newHead_j] = 1;
+}
+void startup() /* 数据的初始化 */
+{
+int i, j;
+// 初始化边框
+for ( i = 0; i < HIGH; i++ )
+{
+canvas[i][0] = -1;
+canvas[i][WIDTH - 1] = -1;
+}
+for ( j = 0; j < WIDTH; j++ )
+{
+canvas[0][j] = -1;
+canvas[HIGH - 1][j] = -1;
+}
+// 初始化蛇头位置
+canvas[HIGH / 2][WIDTH / 2] = 1;
+// 初始化蛇⾝，画布中的元素值分别为2、3、4、5等
+for ( i = 1; i <= 4; i++ )
+{
+canvas[HIGH / 2][WIDTH / 2 - i] = i + 1;
+}
+// 初始化⼩蛇向右移动
+moveDirection = 4;
+food_x = rand() % ( HIGH - 5) + 2;
+food_y = rand() % ( WIDTH - 5) + 2;
+canvas[food_x][food_y] = -2;
+}
+void show() /* 显⽰画⾯ */
+{
+gotoxy(0,0); // 光标移动到原点位置，以下重画清屏
+int i, j;
+for ( i = 0; i < HIGH; i++ )
+{
+for ( j = 0; j < WIDTH; j++ )
+{
+if ( canvas[i][j] == 0 )
+printf(" "); // 输出空格
+else if ( canvas[i][j] == -1 )
+printf("#"); // 输出边框#
+else if ( canvas[i][j] == 1 )
+printf("@"); // 输出蛇头@
+else if ( canvas[i][j] > 1 )
+printf("*"); // 输出蛇⾝*
+else if ( canvas[i][j] == -2 )
+printf("F"); // 输出⾷物F
+}
+printf("\n");
+}
+Sleep(100);
+}
+void updateWithoutInput() // 与⽤户输⼊⽆关的更新
+{
+moveSnakeByDirection();
+}
+void updateWithInput()
+{
+char input;
+if ( kbhit() )
+{
+input = getch();
+if ( input == 'a' )
+{
+moveDirection = 3;
+moveSnakeByDirection();
+}
+else if ( input == 'd' )
+{
+moveDirection = 4;
+moveSnakeByDirection();
+}
+else if ( input == 'w')
+{
+moveDirection = 1;
+moveSnakeByDirection();
+}
+else if ( input == 's' )
+{
+moveDirection = 2;
+moveSnakeByDirection();
+}
+}
+}
+int main(void)
+{
+startup();
+while ( 1 )
+{
+show();
+updateWithoutInput();
+updateWithInput();
+}
+return 0;
+}
