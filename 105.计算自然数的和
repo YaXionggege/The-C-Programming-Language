@@ -1,0 +1,17 @@
+#include <stdio.h> 
+int main()
+{
+    int i, iNum, iSum;
+    
+    printf("输入一个正整数: ");
+    scanf("%d",&iNum);
+ 
+    iSum = 0;
+    for(i=1; i <= iNum; i++)
+    {
+        iSum += i;  // iSum = iSum + i;
+    }
+    printf("Sum = %d",iSum);
+ 
+    return 0;
+}
